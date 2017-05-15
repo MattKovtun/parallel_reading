@@ -1,5 +1,4 @@
 #include "simple_time_stamp.h"
-#include <boost/algorithm/string/replace.hpp>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -14,22 +13,6 @@ using namespace std;
 
 map<string, int> m;
 mutex myMutex;
-//map<string, int> checkM;
-
-//string format_word(string word) {
-//    boost::replace_all(word, "-", " ");
-//    boost::replace_all(word, "`", " ");
-//    boost::replace_all(word, "?", " ");
-//    boost::replace_all(word, ".", " ");
-//    boost::replace_all(word, "!", " ");
-//    boost::replace_all(word, "\"", " ");
-//    boost::replace_all(word, ".", " ");
-//    boost::replace_all(word, "'", " ");
-//    boost::replace_all(word, "'", " ");
-//    boost::replace_all(word, ";", " ");
-//    boost::replace_all(word, ",", " ");
-//    return word;
-//}
 
 void printMap(const map<string, int> &m) {
     for (auto elem : m) {

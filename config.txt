@@ -1,5 +1,5 @@
-infile=/home/matt/CLionProjects/ConCurrency/shakespear.txt             
-out_by_a=/home/matt/CLionProjects/ConCurrency/shakespear_resalt.txt
+infile=shakespear.txt
+out_by_a=shakespear_resalt.txt
 out_by_n=--------------------doesnt work yet------------------
 threads=5
 
