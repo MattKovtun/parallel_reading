@@ -22,7 +22,7 @@ map<string, int> m;
 mutex myMutex;
 condition_variable cv;
 deque<string> dq;
-atomic<bool> done {false};
+atomic<bool> done{false};
 //bool done = false;
 
 void printMap(const map<string, int> &m) {
@@ -42,13 +42,22 @@ void producer(string path) {
     }
 
     while (myfile >> word) {
-        lock_guard<mutex> lg(mutex);
-        dq.push_back(word);
+
+        cout << word << endl;
+//        cout << dq.size() << endl;
+        {
+            lock_guard<mutex> lg(myMutex);
+            dq.push_back(word);
+        }
         cv.notify_one();
 
+
     }
+    cout << dq.size() << endl;
     done = true;
+    cv.notify_all();
     myfile.close();
+
     return;
 }
 
@@ -63,7 +72,7 @@ void write_to_file(const map<string, int> &m, string path) {
 
 void consumer() {
     unique_lock<mutex> ul(myMutex);
-    while (!done) {
+    while (!done || !dq.empty()) {
         if (!dq.empty()) {
             string w = dq.front();
             dq.pop_front();
@@ -86,9 +95,11 @@ int main() {
 
     thread thread1 = thread(producer, "/home/matt/CLionProjects/ConCurrency/shakespear.txt");
     thread thread2 = thread(consumer);
+    thread thread3 = thread(consumer);
     thread2.join();
     thread1.join();
-    write_to_file(m, "/home/matt/CLionProjects/ConCurrency/parallel_res.txt");
+    thread3.join();
+    write_to_file(m, "parallel_res.txt");
     return 0;
 }
 
